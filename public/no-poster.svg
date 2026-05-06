@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 600" role="img" aria-labelledby="title desc">
+  <title id="title">Постер не найден</title>
+  <desc id="desc">Запасная обложка фильма</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#20263a"/>
+      <stop offset="1" stop-color="#111521"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="600" rx="28" fill="url(#bg)"/>
+  <rect x="70" y="94" width="260" height="360" rx="18" fill="#2c3350" stroke="#434b6a" stroke-width="4"/>
+  <circle cx="152" cy="198" r="44" fill="#7c6dff"/>
+  <path d="M104 374l72-92 48 58 34-42 58 76H104z" fill="#d9dcff"/>
+  <text x="200" y="514" text-anchor="middle" fill="#f2f4ff" font-family="Arial, sans-serif" font-size="28" font-weight="700">Нет постера</text>
+</svg>

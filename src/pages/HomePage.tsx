@@ -1,0 +1,81 @@
+import { useCallback } from "react";
+import SearchBar from "../components/SearchBar";
+import MovieList from "../components/MovieList";
+import SkeletonCard from "../components/SkeletonCard";
+import { useSearch } from "../hooks/useSearch";
+import type { MovieSummary, FilterType, SortType } from "../types";
+
+interface Props {
+  checkFav: (id: string) => boolean;
+  onToggleFav: (m: MovieSummary) => void;
+}
+
+export default function HomePage({ checkFav, onToggleFav }: Props) {
+  const { state, search, loadMore, setSort, getSorted } = useSearch();
+  const { status, movies, totalResults, error, query } = state as typeof state & { sort: SortType };
+
+  const handleSearch = useCallback((q: string, f: FilterType) => search(q, f), [search]);
+  const sorted = getSorted(movies, state.sort);
+  const hasMore = sorted.length < totalResults;
+
+  return (
+    <main className="home-page" data-edit-id="home-page">
+      <section className="hero-section" data-edit-id="hero-section">
+        <h1 id="app-title" className="app-title" data-edit-id="app-title">КиноFinder</h1>
+        <p id="app-subtitle" className="app-subtitle" data-edit-id="app-subtitle">
+          Ищите фильмы и сериалы на русском или английском языке
+        </p>
+      </section>
+      <SearchBar onSearch={handleSearch} onSortChange={setSort} sort={state.sort} filter={state.filter} />
+      <section id="results-area" className="results-area" data-edit-id="results-area">
+        {status === "idle" && (
+          <div id="idle-state" className="state-placeholder" data-edit-id="idle-state">
+            <div className="state-icon" data-edit-id="idle-state-icon">Поиск</div>
+            <p data-edit-id="idle-state-text">Начните с запроса: матрица, интерстеллар, друзья</p>
+          </div>
+        )}
+        {status === "empty_query" && (
+          <div id="empty-query-state" className="state-placeholder" data-edit-id="empty-query-state">
+            <div className="state-icon">!</div>
+            <p data-edit-id="empty-query-text">Введите название фильма или сериала</p>
+          </div>
+        )}
+        {status === "loading" && (
+          <div id="loading-skeleton" className="movie-grid" data-edit-id="loading-skeleton">
+            {Array.from({ length: 8 }).map((_, i) => <SkeletonCard key={i} />)}
+          </div>
+        )}
+        {status === "error" && (
+          <div id="error-state" className="state-placeholder error-state" data-edit-id="error-state">
+            <div className="state-icon">Ошибка</div>
+            <p data-edit-id="error-state-message">{error}</p>
+            <button className="retry-btn" onClick={() => handleSearch(query, state.filter)} data-edit-id="retry-button">
+              Повторить
+            </button>
+          </div>
+        )}
+        {status === "success" && sorted.length === 0 && (
+          <div id="no-results-state" className="state-placeholder" data-edit-id="no-results-state">
+            <div className="state-icon">0</div>
+            <p data-edit-id="no-results-text">По запросу "{query}" ничего не найдено</p>
+          </div>
+        )}
+        {status === "success" && sorted.length > 0 && (
+          <MovieList movies={sorted} checkFav={checkFav} onToggleFav={onToggleFav} />
+        )}
+      </section>
+      {status === "success" && sorted.length > 0 && (
+        <section id="pagination-area" className="pagination-area" data-edit-id="pagination-area">
+          <p id="results-counter" className="results-counter" data-edit-id="results-counter">
+            Показано {sorted.length} из {totalResults}
+          </p>
+          {hasMore && (
+            <button id="load-more-button" className="load-more-btn" onClick={loadMore} data-edit-id="load-more-button">
+              Загрузить еще
+            </button>
+          )}
+        </section>
+      )}
+    </main>
+  );
+}
