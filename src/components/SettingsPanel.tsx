@@ -1,39 +1,76 @@
 import { useState } from "react";
+import type { Lang } from "../types";
 import { getApiKey, saveApiKey } from "../utils";
 
 interface Props {
+  lang: Lang;
   onClose: () => void;
   onSaved: () => void;
 }
 
-export default function SettingsPanel({ onClose, onSaved }: Props) {
+const copy = {
+  ru: {
+    title: "Настройки API",
+    close: "Закрыть",
+    descStart: "Вставьте",
+    descLink: "OMDb API ключ",
+    descEnd: "чтобы искать больше фильмов. Базовые русские и английские запросы работают и без ключа.",
+    placeholder: "Например: abc12345",
+    saved: "Ключ сохранен",
+    set: "Ключ добавлен",
+    missing: "Ключ не добавлен",
+    save: "Сохранить",
+  },
+  en: {
+    title: "API settings",
+    close: "Close",
+    descStart: "Paste an",
+    descLink: "OMDb API key",
+    descEnd: "to search a larger catalog. Core Russian and English searches work without a key.",
+    placeholder: "For example: abc12345",
+    saved: "Key saved",
+    set: "Key added",
+    missing: "Key not added",
+    save: "Save",
+  },
+};
+
+export default function SettingsPanel({ lang, onClose, onSaved }: Props) {
   const [key, setKey] = useState(getApiKey());
   const [saved, setSaved] = useState(false);
+  const t = copy[lang];
 
   const handleSave = () => {
     saveApiKey(key.trim());
     setSaved(true);
-    setTimeout(() => { onSaved(); onClose(); }, 800);
+    setTimeout(() => {
+      onSaved();
+      onClose();
+    }, 800);
   };
 
   return (
     <div className="settings-overlay" data-edit-id="settings-overlay">
       <div className="settings-panel" data-edit-id="settings-panel">
         <div className="settings-header" data-edit-id="settings-panel-header">
-          <h2 data-edit-id="settings-panel-title">Настройки API</h2>
-          <button className="settings-close-btn" onClick={onClose} data-edit-id="settings-close-btn">Закрыть</button>
+          <h2 data-edit-id="settings-panel-title">{t.title}</h2>
+          <button className="settings-close-btn" onClick={onClose} data-edit-id="settings-close-btn">{t.close}</button>
         </div>
         <p className="settings-desc" data-edit-id="settings-panel-desc">
-          Вставьте <a href="https://www.omdbapi.com/apikey.aspx" target="_blank" rel="noreferrer">OMDb API ключ</a>,
-          чтобы искать больше фильмов. Базовые русские запросы работают и без ключа.
+          {t.descStart}{" "}
+          <a href="https://www.omdbapi.com/apikey.aspx" target="_blank" rel="noreferrer">{t.descLink}</a>,{" "}
+          {t.descEnd}
         </p>
         <input
           id="api-key-input"
           className="api-key-input"
           type="text"
-          placeholder="Например: abc12345"
+          placeholder={t.placeholder}
           value={key}
-          onChange={(e) => { setKey(e.target.value); setSaved(false); }}
+          onChange={(e) => {
+            setKey(e.target.value);
+            setSaved(false);
+          }}
           data-edit-id="api-key-input"
         />
         <div className="settings-footer" data-edit-id="settings-panel-footer">
@@ -42,10 +79,10 @@ export default function SettingsPanel({ onClose, onSaved }: Props) {
             className={`api-key-status ${saved ? "status-ok" : key ? "status-set" : "status-missing"}`}
             data-edit-id="api-key-status"
           >
-            {saved ? "Ключ сохранен" : key ? "Ключ добавлен" : "Ключ не добавлен"}
+            {saved ? t.saved : key ? t.set : t.missing}
           </span>
           <button id="save-api-key-button" className="save-key-btn" onClick={handleSave} data-edit-id="save-api-key-button">
-            Сохранить
+            {t.save}
           </button>
         </div>
       </div>

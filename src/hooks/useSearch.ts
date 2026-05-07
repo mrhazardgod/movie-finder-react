@@ -1,5 +1,5 @@
 import { useState, useCallback, useRef } from "react";
-import type { SearchState, FilterType, SortType, MovieSummary } from "../types";
+import type { SearchState, FilterType, SortType, MovieSummary, Lang } from "../types";
 import { searchMovies } from "../api/omdb";
 import { sortMovies } from "../utils";
 
@@ -14,7 +14,7 @@ const INITIAL: SearchState = {
   error: "",
 };
 
-export function useSearch() {
+export function useSearch(lang: Lang) {
   const [state, setState] = useState<SearchState>(INITIAL);
   const abortRef = useRef<AbortController | null>(null);
 
@@ -28,7 +28,7 @@ export function useSearch() {
       abortRef.current = new AbortController();
       setState((s) => ({ ...s, status: "loading", error: "" }));
       try {
-        const { movies, total } = await searchMovies(query, filter, page);
+        const { movies, total } = await searchMovies(query, filter, page, lang);
         setState((s) => {
           const merged: MovieSummary[] = append ? [...s.movies, ...movies] : movies;
           return {
@@ -46,7 +46,7 @@ export function useSearch() {
         setState((s) => ({ ...s, status: "error", error: msg }));
       }
     },
-    []
+    [lang]
   );
 
   const search = useCallback(

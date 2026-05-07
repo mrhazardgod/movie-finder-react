@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
-import type { MovieSummary } from "../types";
+import type { Lang, MovieSummary } from "../types";
 import { noPoster } from "../utils";
 
 interface Props {
+  lang: Lang;
   movie: MovieSummary;
   isFav: boolean;
   onToggleFav: (m: MovieSummary) => void;
@@ -10,8 +11,15 @@ interface Props {
   onRemove?: (id: string) => void;
 }
 
-export default function MainCard({ movie, isFav, onToggleFav, showRemove, onRemove }: Props) {
+const copy = {
+  ru: { inFav: "В избранном", addFav: "В избранное", remove: "Удалить" },
+  en: { inFav: "Saved", addFav: "Save", remove: "Remove" },
+};
+
+export default function MainCard({ lang, movie, isFav, onToggleFav, showRemove, onRemove }: Props) {
   const poster = noPoster(movie.Poster) ? "./no-poster.svg" : movie.Poster;
+  const t = copy[lang];
+
   return (
     <div className="movie-card" data-edit-id={`movie-card-${movie.imdbID}`}>
       <Link to={`/movie/${movie.imdbID}`} className="card-link" data-edit-id={`card-link-${movie.imdbID}`}>
@@ -30,11 +38,11 @@ export default function MainCard({ movie, isFav, onToggleFav, showRemove, onRemo
           onClick={() => onToggleFav(movie)}
           data-edit-id={`fav-btn-${movie.imdbID}`}
         >
-          {isFav ? "В избранном" : "В избранное"}
+          {isFav ? t.inFav : t.addFav}
         </button>
         {showRemove && onRemove && (
           <button className="remove-btn" onClick={() => onRemove(movie.imdbID)} data-edit-id={`remove-btn-${movie.imdbID}`}>
-            Удалить
+            {t.remove}
           </button>
         )}
       </div>

@@ -120,6 +120,31 @@ a {
   gap: 8px;
 }
 
+.language-toggle {
+  display: inline-flex;
+  align-items: center;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: #111521;
+}
+
+.lang-btn {
+  min-height: 36px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--muted);
+  padding: 7px 10px;
+  font-weight: 800;
+}
+
+.lang-btn.active,
+.lang-btn:hover {
+  background: var(--accent);
+  color: #fff;
+}
+
 .user-pill {
   max-width: 160px;
   overflow: hidden;

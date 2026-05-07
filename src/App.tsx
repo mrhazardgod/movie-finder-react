@@ -8,6 +8,7 @@ import FavoritesPage from "./pages/FavoritesPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import LoginPage from "./pages/LoginPage";
 import { useFavorites } from "./hooks/useFavorites";
+import type { Lang } from "./types";
 
 export interface AuthUser {
   name: string;
@@ -15,6 +16,7 @@ export interface AuthUser {
 }
 
 const USER_KEY = "moviefinder_user";
+const LANG_KEY = "moviefinder_lang";
 
 function readStoredUser(): AuthUser | null {
   try {
@@ -24,9 +26,14 @@ function readStoredUser(): AuthUser | null {
   }
 }
 
+function readStoredLang(): Lang {
+  return localStorage.getItem(LANG_KEY) === "en" ? "en" : "ru";
+}
+
 export default function App() {
   const [showSettings, setShowSettings] = useState(false);
   const [user, setUser] = useState<AuthUser | null>(readStoredUser);
+  const [lang, setLang] = useState<Lang>(readStoredLang);
   const { favorites, toggleFavorite, removeOne, clearAll, checkFav } = useFavorites();
 
   const handleLogin = (nextUser: AuthUser) => {
@@ -39,29 +46,38 @@ export default function App() {
     setUser(null);
   };
 
+  const handleLangChange = (nextLang: Lang) => {
+    localStorage.setItem(LANG_KEY, nextLang);
+    setLang(nextLang);
+  };
+
   return (
     <>
       <Header
         favCount={favorites.length}
         user={user}
+        lang={lang}
+        onLanguageChange={handleLangChange}
         onLogout={handleLogout}
         onSettingsToggle={() => setShowSettings((value) => !value)}
       />
       {showSettings && (
         <SettingsPanel
+          lang={lang}
           onClose={() => setShowSettings(false)}
           onSaved={() => setShowSettings(false)}
         />
       )}
       <div className="page-wrapper">
         <Routes>
-          <Route path="/" element={<HomePage checkFav={checkFav} onToggleFav={toggleFavorite} />} />
-          <Route path="/login" element={<LoginPage user={user} onLogin={handleLogin} />} />
-          <Route path="/movie/:id" element={<MovieDetailPage checkFav={checkFav} onToggleFav={toggleFavorite} />} />
+          <Route path="/" element={<HomePage lang={lang} checkFav={checkFav} onToggleFav={toggleFavorite} />} />
+          <Route path="/login" element={<LoginPage lang={lang} user={user} onLogin={handleLogin} />} />
+          <Route path="/movie/:id" element={<MovieDetailPage lang={lang} checkFav={checkFav} onToggleFav={toggleFavorite} />} />
           <Route
             path="/favorites"
             element={
               <FavoritesPage
+                lang={lang}
                 favorites={favorites}
                 checkFav={checkFav}
                 onToggleFav={toggleFavorite}
@@ -70,7 +86,7 @@ export default function App() {
               />
             }
           />
-          <Route path="*" element={<NotFoundPage />} />
+          <Route path="*" element={<NotFoundPage lang={lang} />} />
         </Routes>
       </div>
     </>

@@ -1,23 +1,56 @@
 import { useState, useEffect, useRef } from "react";
-import type { FilterType, SortType } from "../types";
+import type { FilterType, Lang, SortType } from "../types";
 
 interface Props {
+  lang: Lang;
   onSearch: (q: string, f: FilterType) => void;
   onSortChange: (s: SortType) => void;
   sort: SortType;
   filter: FilterType;
 }
 
-export default function SearchBar({ onSearch, onSortChange, sort, filter }: Props) {
+const copy = {
+  ru: {
+    placeholder: "Введите название: матрица, интерстеллар, друзья...",
+    search: "Искать",
+    all: "Все типы",
+    movies: "Фильмы",
+    series: "Сериалы",
+    episodes: "Эпизоды",
+    sortDefault: "Сортировка: по умолчанию",
+    yearAsc: "Год: сначала старые",
+    yearDesc: "Год: сначала новые",
+    titleAz: "Название: А-Я",
+    titleZa: "Название: Я-А",
+  },
+  en: {
+    placeholder: "Search: matrix, interstellar, friends...",
+    search: "Search",
+    all: "All types",
+    movies: "Movies",
+    series: "Series",
+    episodes: "Episodes",
+    sortDefault: "Sort: default",
+    yearAsc: "Year: oldest first",
+    yearDesc: "Year: newest first",
+    titleAz: "Title: A-Z",
+    titleZa: "Title: Z-A",
+  },
+};
+
+export default function SearchBar({ lang, onSearch, onSortChange, sort, filter }: Props) {
   const [query, setQuery] = useState("");
   const [localFilter, setLocalFilter] = useState<FilterType>(filter);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const t = copy[lang];
 
   useEffect(() => {
     if (!query.trim()) return;
     debounceRef.current && clearTimeout(debounceRef.current);
     debounceRef.current = setTimeout(() => onSearch(query, localFilter), 400);
-    return () => { debounceRef.current && clearTimeout(debounceRef.current); };
+    return () => {
+      debounceRef.current && clearTimeout(debounceRef.current);
+    };
   }, [query, localFilter, onSearch]);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -33,13 +66,13 @@ export default function SearchBar({ onSearch, onSortChange, sort, filter }: Prop
           id="search-input"
           className="search-input"
           type="text"
-          placeholder="Введите название: матрица, интерстеллар, друзья..."
+          placeholder={t.placeholder}
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           data-edit-id="search-input"
         />
         <button id="search-button" className="search-button" type="submit" data-edit-id="search-button">
-          Искать
+          {t.search}
         </button>
       </form>
       <div id="filter-bar" className="filter-bar" data-edit-id="filter-bar">
@@ -50,10 +83,10 @@ export default function SearchBar({ onSearch, onSortChange, sort, filter }: Prop
           onChange={(e) => setLocalFilter(e.target.value as FilterType)}
           data-edit-id="filter-type-select"
         >
-          <option value="all">Все типы</option>
-          <option value="movie">Фильмы</option>
-          <option value="series">Сериалы</option>
-          <option value="episode">Эпизоды</option>
+          <option value="all">{t.all}</option>
+          <option value="movie">{t.movies}</option>
+          <option value="series">{t.series}</option>
+          <option value="episode">{t.episodes}</option>
         </select>
         <select
           id="sort-select"
@@ -62,11 +95,11 @@ export default function SearchBar({ onSearch, onSortChange, sort, filter }: Prop
           onChange={(e) => onSortChange(e.target.value as SortType)}
           data-edit-id="sort-select"
         >
-          <option value="default">Сортировка: по умолчанию</option>
-          <option value="year_asc">Год: сначала старые</option>
-          <option value="year_desc">Год: сначала новые</option>
-          <option value="title_az">Название: А-Я</option>
-          <option value="title_za">Название: Я-А</option>
+          <option value="default">{t.sortDefault}</option>
+          <option value="year_asc">{t.yearAsc}</option>
+          <option value="year_desc">{t.yearDesc}</option>
+          <option value="title_az">{t.titleAz}</option>
+          <option value="title_za">{t.titleZa}</option>
         </select>
       </div>
     </div>
