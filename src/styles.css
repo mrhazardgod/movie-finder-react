@@ -255,6 +255,27 @@ a {
   margin-top: 12px;
 }
 
+.quick-filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.quick-filter-btn {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface-strong);
+  color: var(--text);
+  padding: 9px 12px;
+  font-weight: 800;
+}
+
+.quick-filter-btn:hover {
+  border-color: rgba(124, 109, 255, 0.6);
+  background: rgba(124, 109, 255, 0.16);
+}
+
 .filter-select {
   width: auto;
   min-width: 190px;

@@ -6,7 +6,7 @@ import { sortMovies } from "../utils";
 const INITIAL: SearchState = {
   query: "",
   filter: "all",
-  sort: "year_desc",
+  sort: "rating_desc",
   page: 1,
   totalResults: 0,
   movies: [],

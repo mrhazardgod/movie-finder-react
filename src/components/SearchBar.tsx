@@ -13,6 +13,9 @@ const copy = {
   ru: {
     placeholder: "Введите название или оставьте пустым для каталога...",
     search: "Показать",
+    catalog: "Весь каталог",
+    top: "Топ рейтинга",
+    newest: "Новинки",
     all: "Все типы",
     movies: "Фильмы",
     series: "Сериалы",
@@ -28,6 +31,9 @@ const copy = {
   en: {
     placeholder: "Search a title or leave empty for the catalog...",
     search: "Show",
+    catalog: "Full catalog",
+    top: "Top rated",
+    newest: "Newest",
     all: "All types",
     movies: "Movies",
     series: "Series",
@@ -61,6 +67,13 @@ export default function SearchBar({ lang, onSearch, onSortChange, sort, filter }
     e.preventDefault();
     debounceRef.current && clearTimeout(debounceRef.current);
     onSearch(query, localFilter);
+  };
+
+  const showCatalog = (nextSort: SortType) => {
+    debounceRef.current && clearTimeout(debounceRef.current);
+    setQuery("");
+    onSortChange(nextSort);
+    onSearch("", localFilter);
   };
 
   return (
@@ -100,13 +113,24 @@ export default function SearchBar({ lang, onSearch, onSortChange, sort, filter }
           data-edit-id="sort-select"
         >
           <option value="default">{t.sortDefault}</option>
+          <option value="rating_desc">{t.ratingDesc}</option>
           <option value="year_desc">{t.yearDesc}</option>
           <option value="year_asc">{t.yearAsc}</option>
-          <option value="rating_desc">{t.ratingDesc}</option>
           <option value="rating_asc">{t.ratingAsc}</option>
           <option value="title_az">{t.titleAz}</option>
           <option value="title_za">{t.titleZa}</option>
         </select>
+      </div>
+      <div className="quick-filter-row" data-edit-id="quick-filter-row">
+        <button type="button" className="quick-filter-btn" onClick={() => showCatalog("default")} data-edit-id="quick-catalog">
+          {t.catalog}
+        </button>
+        <button type="button" className="quick-filter-btn" onClick={() => showCatalog("rating_desc")} data-edit-id="quick-top-rated">
+          {t.top}
+        </button>
+        <button type="button" className="quick-filter-btn" onClick={() => showCatalog("year_desc")} data-edit-id="quick-newest">
+          {t.newest}
+        </button>
       </div>
     </div>
   );

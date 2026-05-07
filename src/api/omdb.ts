@@ -2,7 +2,7 @@ import { getApiKey } from "../utils";
 import type { FilterType, Lang, MovieDetail, MovieSummary } from "../types";
 
 const BASE = "https://www.omdbapi.com/";
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 100;
 
 interface SearchResponse {
   Search?: MovieSummary[];
@@ -521,6 +521,9 @@ export async function searchMovies(
 ): Promise<{ movies: MovieSummary[]; total: number }> {
   const localResult = searchLocalMovies(query, type, page, lang);
   const key = getApiKey();
+  const isCatalogRequest = !query.trim();
+
+  if (isCatalogRequest) return localResult;
 
   if (key) {
     try {
