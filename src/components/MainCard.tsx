@@ -17,14 +17,28 @@ const copy = {
 };
 
 export default function MainCard({ lang, movie, isFav, onToggleFav, showRemove, onRemove }: Props) {
-  const poster = noPoster(movie.Poster) ? "./no-poster.svg" : movie.Poster;
+  const hasPoster = !noPoster(movie.Poster);
   const t = copy[lang];
 
   return (
     <div className="movie-card" data-edit-id={`movie-card-${movie.imdbID}`}>
       <Link to={`/movie/${movie.imdbID}`} className="card-link" data-edit-id={`card-link-${movie.imdbID}`}>
         <div className="card-poster-wrap">
-          <img src={poster} alt={movie.Title} className="card-poster" data-edit-id={`card-poster-${movie.imdbID}`} />
+          <div className="poster-fallback" aria-hidden="true">
+            <span className="poster-title">{movie.Title}</span>
+            <span className="poster-rating">{movie.imdbRating ? `IMDb ${movie.imdbRating}` : movie.Year}</span>
+          </div>
+          {hasPoster && (
+            <img
+              src={movie.Poster}
+              alt={movie.Title}
+              className="card-poster"
+              onError={(event) => {
+                event.currentTarget.style.display = "none";
+              }}
+              data-edit-id={`card-poster-${movie.imdbID}`}
+            />
+          )}
           <span className="card-type-badge" data-edit-id={`card-type-${movie.imdbID}`}>{movie.Type}</span>
         </div>
         <div className="card-info" data-edit-id={`card-info-${movie.imdbID}`}>

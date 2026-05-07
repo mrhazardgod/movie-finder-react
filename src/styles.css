@@ -321,21 +321,65 @@ a {
 .card-poster-wrap {
   position: relative;
   aspect-ratio: 2 / 3;
+  overflow: hidden;
   background: #121827;
 }
 
 .card-poster,
-.details-poster {
+.details-poster-img {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
+  z-index: 1;
+}
+
+.poster-fallback {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 18px;
+  background:
+    radial-gradient(circle at 28% 18%, rgba(124, 109, 255, 0.75), transparent 22%),
+    linear-gradient(145deg, #2b3150 0%, #161b2e 48%, #0d111d 100%);
+  color: var(--text);
+}
+
+.poster-fallback::before {
+  content: "";
+  position: absolute;
+  inset: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+}
+
+.poster-title,
+.poster-rating {
+  position: relative;
+  z-index: 1;
+}
+
+.poster-title {
+  font-size: 22px;
+  font-weight: 900;
+  line-height: 1.05;
+}
+
+.poster-rating {
+  color: #ffe58a;
+  font-weight: 900;
 }
 
 .card-type-badge {
   position: absolute;
   top: 10px;
   left: 10px;
+  z-index: 2;
   border-radius: 999px;
   background: rgba(15, 17, 23, 0.82);
   border: 1px solid rgba(255, 255, 255, 0.14);
@@ -490,11 +534,26 @@ a {
 }
 
 .details-poster {
+  position: relative;
+  overflow: hidden;
   aspect-ratio: 2 / 3;
   border: 1px solid var(--border);
   border-radius: 18px;
   background: var(--surface);
   box-shadow: var(--shadow);
+}
+
+.details-poster-shell {
+  width: 100%;
+  height: auto;
+}
+
+.details-fallback {
+  padding: 28px;
+}
+
+.details-fallback .poster-title {
+  font-size: 34px;
 }
 
 .movie-meta,

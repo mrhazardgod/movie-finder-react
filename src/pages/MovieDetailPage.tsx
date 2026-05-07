@@ -85,7 +85,7 @@ export default function MovieDetailPage({ lang, checkFav, onToggleFav }: Props) 
 
   if (!movie) return null;
 
-  const poster = noPoster(movie.Poster) ? "./no-poster.svg" : movie.Poster;
+  const hasPoster = !noPoster(movie.Poster);
   const isFav = checkFav(movie.imdbID);
 
   const infoItems = [
@@ -105,7 +105,22 @@ export default function MovieDetailPage({ lang, checkFav, onToggleFav }: Props) 
         </button>
       </div>
       <section id="movie-hero" className="movie-hero" data-edit-id="movie-hero">
-        <img id="movie-poster" src={poster} alt={movie.Title} className="details-poster" data-edit-id="movie-poster" />
+        <div id="movie-poster" className="details-poster details-poster-shell" data-edit-id="movie-poster">
+          <div className="poster-fallback details-fallback" aria-hidden="true">
+            <span className="poster-title">{movie.Title}</span>
+            <span className="poster-rating">IMDb {movie.imdbRating}</span>
+          </div>
+          {hasPoster && (
+            <img
+              src={movie.Poster}
+              alt={movie.Title}
+              className="details-poster-img"
+              onError={(event) => {
+                event.currentTarget.style.display = "none";
+              }}
+            />
+          )}
+        </div>
         <div className="movie-meta" data-edit-id="movie-meta">
           <h1 id="movie-title" className="details-title" data-edit-id="movie-title">{movie.Title}</h1>
           <div className="meta-badges" data-edit-id="meta-badges">
