@@ -34,12 +34,49 @@ interface LocalMovie {
   aliases: string[];
 }
 
+function posterArt(title: string, subtitle: string, colors: [string, string, string]): string {
+  const [bg, accent, glow] = colors;
+  const safeTitle = title.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  const safeSubtitle = subtitle.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  const svg = `
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 900">
+      <defs>
+        <radialGradient id="g" cx="34%" cy="18%" r="72%">
+          <stop offset="0" stop-color="${glow}"/>
+          <stop offset="0.45" stop-color="${accent}"/>
+          <stop offset="1" stop-color="${bg}"/>
+        </radialGradient>
+        <linearGradient id="fade" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0" stop-color="rgba(0,0,0,0)"/>
+          <stop offset="1" stop-color="rgba(0,0,0,0.7)"/>
+        </linearGradient>
+      </defs>
+      <rect width="600" height="900" fill="url(#g)"/>
+      <circle cx="470" cy="145" r="92" fill="rgba(255,255,255,0.18)"/>
+      <circle cx="124" cy="252" r="150" fill="rgba(255,255,255,0.08)"/>
+      <path d="M58 656 C178 560 250 604 324 516 C406 420 510 408 574 360 L574 900 L58 900 Z" fill="rgba(0,0,0,0.32)"/>
+      <rect x="34" y="34" width="532" height="832" rx="30" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="3"/>
+      <rect x="0" y="520" width="600" height="380" fill="url(#fade)"/>
+      <text x="54" y="690" fill="#ffffff" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="56" font-weight="900">
+        ${safeTitle.split(" ").slice(0, 2).join(" ")}
+      </text>
+      <text x="54" y="752" fill="#ffffff" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="44" font-weight="800">
+        ${safeTitle.split(" ").slice(2).join(" ")}
+      </text>
+      <text x="54" y="814" fill="#ffe58a" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="28" font-weight="900" letter-spacing="4">
+        ${safeSubtitle}
+      </text>
+    </svg>
+  `;
+  return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
+}
+
 const LOCAL_MOVIES: LocalMovie[] = [
   {
     imdbID: "tt0133093",
     type: "movie",
     year: "1999",
-    poster: "https://image.tmdb.org/t/p/w500/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg",
+    poster: posterArt("The Matrix", "SCI-FI 1999", ["#04140d", "#0d5a38", "#35ff9e"]),
     title: { ru: "Матрица", en: "The Matrix" },
     genre: { ru: "Фантастика, боевик", en: "Sci-Fi, Action" },
     plot: {
@@ -63,7 +100,7 @@ const LOCAL_MOVIES: LocalMovie[] = [
     imdbID: "tt0816692",
     type: "movie",
     year: "2014",
-    poster: "https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg",
+    poster: posterArt("Interstellar", "SPACE 2014", ["#080b18", "#253b76", "#b7d7ff"]),
     title: { ru: "Интерстеллар", en: "Interstellar" },
     genre: { ru: "Фантастика, драма, приключения", en: "Sci-Fi, Drama, Adventure" },
     plot: {
@@ -87,7 +124,7 @@ const LOCAL_MOVIES: LocalMovie[] = [
     imdbID: "tt1375666",
     type: "movie",
     year: "2010",
-    poster: "https://image.tmdb.org/t/p/w500/oYuLEt3zVCKq57qu2F8dT7NIa6f.jpg",
+    poster: posterArt("Inception", "DREAM 2010", ["#101014", "#4d5363", "#d7d9df"]),
     title: { ru: "Начало", en: "Inception" },
     genre: { ru: "Фантастика, боевик, триллер", en: "Sci-Fi, Action, Thriller" },
     plot: {
@@ -111,7 +148,7 @@ const LOCAL_MOVIES: LocalMovie[] = [
     imdbID: "tt0111161",
     type: "movie",
     year: "1994",
-    poster: "https://image.tmdb.org/t/p/w500/q6y0Go1tsGEsmtFryDOJo3dEmqu.jpg",
+    poster: posterArt("The Shawshank Redemption", "DRAMA 1994", ["#17120c", "#6b4a25", "#ffd391"]),
     title: { ru: "Побег из Шоушенка", en: "The Shawshank Redemption" },
     genre: { ru: "Драма", en: "Drama" },
     plot: {
@@ -135,7 +172,7 @@ const LOCAL_MOVIES: LocalMovie[] = [
     imdbID: "tt0068646",
     type: "movie",
     year: "1972",
-    poster: "https://image.tmdb.org/t/p/w500/3bhkrj58Vtu7enYsRolD1fZdja1.jpg",
+    poster: posterArt("The Godfather", "CRIME 1972", ["#130b0b", "#5f1515", "#f0d4b0"]),
     title: { ru: "Крестный отец", en: "The Godfather" },
     genre: { ru: "Криминал, драма", en: "Crime, Drama" },
     plot: {
@@ -159,7 +196,7 @@ const LOCAL_MOVIES: LocalMovie[] = [
     imdbID: "tt0468569",
     type: "movie",
     year: "2008",
-    poster: "https://image.tmdb.org/t/p/w500/qJ2tW6WMUDux911r6m7haRef0WH.jpg",
+    poster: posterArt("The Dark Knight", "ACTION 2008", ["#060a10", "#1e3f68", "#7cc9ff"]),
     title: { ru: "Темный рыцарь", en: "The Dark Knight" },
     genre: { ru: "Боевик, криминал, драма", en: "Action, Crime, Drama" },
     plot: {
@@ -183,7 +220,7 @@ const LOCAL_MOVIES: LocalMovie[] = [
     imdbID: "tt0109830",
     type: "movie",
     year: "1994",
-    poster: "https://image.tmdb.org/t/p/w500/arw2vcBveWOVZr6pxd9XTd1TdQa.jpg",
+    poster: posterArt("Forrest Gump", "DRAMA 1994", ["#0f1830", "#476fb2", "#e7f1ff"]),
     title: { ru: "Форрест Гамп", en: "Forrest Gump" },
     genre: { ru: "Драма, мелодрама", en: "Drama, Romance" },
     plot: {
@@ -207,7 +244,7 @@ const LOCAL_MOVIES: LocalMovie[] = [
     imdbID: "tt0110912",
     type: "movie",
     year: "1994",
-    poster: "https://image.tmdb.org/t/p/w500/d5iIlFn5s0ImszYzBPb8JPIfbXD.jpg",
+    poster: posterArt("Pulp Fiction", "CRIME 1994", ["#180d0a", "#a33a22", "#ffd15a"]),
     title: { ru: "Криминальное чтиво", en: "Pulp Fiction" },
     genre: { ru: "Криминал, драма", en: "Crime, Drama" },
     plot: {
@@ -231,7 +268,7 @@ const LOCAL_MOVIES: LocalMovie[] = [
     imdbID: "tt0108778",
     type: "series",
     year: "1994-2004",
-    poster: "https://image.tmdb.org/t/p/w500/f496cm9enuEsZkSPzCwnTESEK5s.jpg",
+    poster: posterArt("Friends", "SITCOM 1994", ["#111427", "#513a9f", "#ffcf58"]),
     title: { ru: "Друзья", en: "Friends" },
     genre: { ru: "Комедия, мелодрама", en: "Comedy, Romance" },
     plot: {
@@ -256,7 +293,7 @@ const LOCAL_MOVIES: LocalMovie[] = [
     imdbID: "tt0903747",
     type: "series",
     year: "2008-2013",
-    poster: "https://image.tmdb.org/t/p/w500/ggFHVNu6YYI5L9pCfOacjizRGt.jpg",
+    poster: posterArt("Breaking Bad", "SERIES 2008", ["#07150e", "#17663c", "#a4ff7a"]),
     title: { ru: "Во все тяжкие", en: "Breaking Bad" },
     genre: { ru: "Криминал, драма, триллер", en: "Crime, Drama, Thriller" },
     plot: {
@@ -281,7 +318,7 @@ const LOCAL_MOVIES: LocalMovie[] = [
     imdbID: "tt0944947",
     type: "series",
     year: "2011-2019",
-    poster: "https://image.tmdb.org/t/p/w500/1XS1oqL89opfnbLl8WnZY1O1uJx.jpg",
+    poster: posterArt("Game of Thrones", "FANTASY 2011", ["#10131a", "#454f61", "#d7ecff"]),
     title: { ru: "Игра престолов", en: "Game of Thrones" },
     genre: { ru: "Драма, фэнтези, приключения", en: "Drama, Fantasy, Adventure" },
     plot: {
@@ -306,7 +343,7 @@ const LOCAL_MOVIES: LocalMovie[] = [
     imdbID: "tt4154796",
     type: "movie",
     year: "2019",
-    poster: "https://image.tmdb.org/t/p/w500/or06FN3Dka5tukK1e9sl16pB3iy.jpg",
+    poster: posterArt("Avengers Endgame", "MARVEL 2019", ["#101024", "#4f3ca6", "#ff6f61"]),
     title: { ru: "Мстители: Финал", en: "Avengers: Endgame" },
     genre: { ru: "Боевик, приключения, драма", en: "Action, Adventure, Drama" },
     plot: {
@@ -330,7 +367,7 @@ const LOCAL_MOVIES: LocalMovie[] = [
     imdbID: "tt7286456",
     type: "movie",
     year: "2019",
-    poster: "https://image.tmdb.org/t/p/w500/udDclJoHjfjb8Ekgsd4FDteOkCU.jpg",
+    poster: posterArt("Joker", "THRILLER 2019", ["#120b16", "#673061", "#4de084"]),
     title: { ru: "Джокер", en: "Joker" },
     genre: { ru: "Криминал, драма, триллер", en: "Crime, Drama, Thriller" },
     plot: {
@@ -354,7 +391,7 @@ const LOCAL_MOVIES: LocalMovie[] = [
     imdbID: "tt1160419",
     type: "movie",
     year: "2021",
-    poster: "https://image.tmdb.org/t/p/w500/d5NXSklXo0qyIYkgV94XAgMIckC.jpg",
+    poster: posterArt("Dune", "SCI-FI 2021", ["#1a1208", "#9d6d2b", "#ffd079"]),
     title: { ru: "Дюна", en: "Dune" },
     genre: { ru: "Фантастика, приключения, драма", en: "Sci-Fi, Adventure, Drama" },
     plot: {
@@ -378,7 +415,7 @@ const LOCAL_MOVIES: LocalMovie[] = [
     imdbID: "tt1475582",
     type: "series",
     year: "2010-2017",
-    poster: "https://image.tmdb.org/t/p/w500/7WTsnHkbA0FaG6R9twfFde0I9hl.jpg",
+    poster: posterArt("Sherlock", "MYSTERY 2010", ["#0d1117", "#254d6d", "#9ee2ff"]),
     title: { ru: "Шерлок", en: "Sherlock" },
     genre: { ru: "Криминал, драма, детектив", en: "Crime, Drama, Mystery" },
     plot: {
