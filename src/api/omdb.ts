@@ -39,7 +39,7 @@ const LOCAL_MOVIES: LocalMovie[] = [
     imdbID: "tt0133093",
     type: "movie",
     year: "1999",
-    poster: "N/A",
+    poster: "https://image.tmdb.org/t/p/w500/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg",
     title: { ru: "Матрица", en: "The Matrix" },
     genre: { ru: "Фантастика, боевик", en: "Sci-Fi, Action" },
     plot: {
@@ -63,7 +63,7 @@ const LOCAL_MOVIES: LocalMovie[] = [
     imdbID: "tt0816692",
     type: "movie",
     year: "2014",
-    poster: "N/A",
+    poster: "https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg",
     title: { ru: "Интерстеллар", en: "Interstellar" },
     genre: { ru: "Фантастика, драма, приключения", en: "Sci-Fi, Drama, Adventure" },
     plot: {
@@ -87,7 +87,7 @@ const LOCAL_MOVIES: LocalMovie[] = [
     imdbID: "tt1375666",
     type: "movie",
     year: "2010",
-    poster: "N/A",
+    poster: "https://image.tmdb.org/t/p/w500/oYuLEt3zVCKq57qu2F8dT7NIa6f.jpg",
     title: { ru: "Начало", en: "Inception" },
     genre: { ru: "Фантастика, боевик, триллер", en: "Sci-Fi, Action, Thriller" },
     plot: {
@@ -111,7 +111,7 @@ const LOCAL_MOVIES: LocalMovie[] = [
     imdbID: "tt0111161",
     type: "movie",
     year: "1994",
-    poster: "N/A",
+    poster: "https://image.tmdb.org/t/p/w500/q6y0Go1tsGEsmtFryDOJo3dEmqu.jpg",
     title: { ru: "Побег из Шоушенка", en: "The Shawshank Redemption" },
     genre: { ru: "Драма", en: "Drama" },
     plot: {
@@ -135,7 +135,7 @@ const LOCAL_MOVIES: LocalMovie[] = [
     imdbID: "tt0068646",
     type: "movie",
     year: "1972",
-    poster: "N/A",
+    poster: "https://image.tmdb.org/t/p/w500/3bhkrj58Vtu7enYsRolD1fZdja1.jpg",
     title: { ru: "Крестный отец", en: "The Godfather" },
     genre: { ru: "Криминал, драма", en: "Crime, Drama" },
     plot: {
@@ -159,7 +159,7 @@ const LOCAL_MOVIES: LocalMovie[] = [
     imdbID: "tt0468569",
     type: "movie",
     year: "2008",
-    poster: "N/A",
+    poster: "https://image.tmdb.org/t/p/w500/qJ2tW6WMUDux911r6m7haRef0WH.jpg",
     title: { ru: "Темный рыцарь", en: "The Dark Knight" },
     genre: { ru: "Боевик, криминал, драма", en: "Action, Crime, Drama" },
     plot: {
@@ -183,7 +183,7 @@ const LOCAL_MOVIES: LocalMovie[] = [
     imdbID: "tt0109830",
     type: "movie",
     year: "1994",
-    poster: "N/A",
+    poster: "https://image.tmdb.org/t/p/w500/arw2vcBveWOVZr6pxd9XTd1TdQa.jpg",
     title: { ru: "Форрест Гамп", en: "Forrest Gump" },
     genre: { ru: "Драма, мелодрама", en: "Drama, Romance" },
     plot: {
@@ -207,7 +207,7 @@ const LOCAL_MOVIES: LocalMovie[] = [
     imdbID: "tt0110912",
     type: "movie",
     year: "1994",
-    poster: "N/A",
+    poster: "https://image.tmdb.org/t/p/w500/d5iIlFn5s0ImszYzBPb8JPIfbXD.jpg",
     title: { ru: "Криминальное чтиво", en: "Pulp Fiction" },
     genre: { ru: "Криминал, драма", en: "Crime, Drama" },
     plot: {
@@ -231,7 +231,7 @@ const LOCAL_MOVIES: LocalMovie[] = [
     imdbID: "tt0108778",
     type: "series",
     year: "1994-2004",
-    poster: "N/A",
+    poster: "https://image.tmdb.org/t/p/w500/f496cm9enuEsZkSPzCwnTESEK5s.jpg",
     title: { ru: "Друзья", en: "Friends" },
     genre: { ru: "Комедия, мелодрама", en: "Comedy, Romance" },
     plot: {
@@ -256,7 +256,7 @@ const LOCAL_MOVIES: LocalMovie[] = [
     imdbID: "tt0903747",
     type: "series",
     year: "2008-2013",
-    poster: "N/A",
+    poster: "https://image.tmdb.org/t/p/w500/ggFHVNu6YYI5L9pCfOacjizRGt.jpg",
     title: { ru: "Во все тяжкие", en: "Breaking Bad" },
     genre: { ru: "Криминал, драма, триллер", en: "Crime, Drama, Thriller" },
     plot: {
@@ -281,7 +281,7 @@ const LOCAL_MOVIES: LocalMovie[] = [
     imdbID: "tt0944947",
     type: "series",
     year: "2011-2019",
-    poster: "N/A",
+    poster: "https://image.tmdb.org/t/p/w500/1XS1oqL89opfnbLl8WnZY1O1uJx.jpg",
     title: { ru: "Игра престолов", en: "Game of Thrones" },
     genre: { ru: "Драма, фэнтези, приключения", en: "Drama, Fantasy, Adventure" },
     plot: {
@@ -306,7 +306,7 @@ const LOCAL_MOVIES: LocalMovie[] = [
     imdbID: "tt4154796",
     type: "movie",
     year: "2019",
-    poster: "N/A",
+    poster: "https://image.tmdb.org/t/p/w500/or06FN3Dka5tukK1e9sl16pB3iy.jpg",
     title: { ru: "Мстители: Финал", en: "Avengers: Endgame" },
     genre: { ru: "Боевик, приключения, драма", en: "Action, Adventure, Drama" },
     plot: {
@@ -330,7 +330,7 @@ const LOCAL_MOVIES: LocalMovie[] = [
     imdbID: "tt7286456",
     type: "movie",
     year: "2019",
-    poster: "N/A",
+    poster: "https://image.tmdb.org/t/p/w500/udDclJoHjfjb8Ekgsd4FDteOkCU.jpg",
     title: { ru: "Джокер", en: "Joker" },
     genre: { ru: "Криминал, драма, триллер", en: "Crime, Drama, Thriller" },
     plot: {
@@ -354,7 +354,7 @@ const LOCAL_MOVIES: LocalMovie[] = [
     imdbID: "tt1160419",
     type: "movie",
     year: "2021",
-    poster: "N/A",
+    poster: "https://image.tmdb.org/t/p/w500/d5NXSklXo0qyIYkgV94XAgMIckC.jpg",
     title: { ru: "Дюна", en: "Dune" },
     genre: { ru: "Фантастика, приключения, драма", en: "Sci-Fi, Adventure, Drama" },
     plot: {
@@ -378,7 +378,7 @@ const LOCAL_MOVIES: LocalMovie[] = [
     imdbID: "tt1475582",
     type: "series",
     year: "2010-2017",
-    poster: "N/A",
+    poster: "https://image.tmdb.org/t/p/w500/7WTsnHkbA0FaG6R9twfFde0I9hl.jpg",
     title: { ru: "Шерлок", en: "Sherlock" },
     genre: { ru: "Криминал, драма, детектив", en: "Crime, Drama, Mystery" },
     plot: {
