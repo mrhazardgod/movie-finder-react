@@ -2,11 +2,24 @@ import type { MovieSummary, SortType } from "./types";
 
 export function sortMovies(movies: MovieSummary[], sort: SortType): MovieSummary[] {
   const copy = [...movies];
+  const readYear = (value: string) => {
+    const match = value.match(/\d{4}/);
+    return match ? parseInt(match[0], 10) : 0;
+  };
+  const readRating = (value?: string) => {
+    const rating = parseFloat(value || "0");
+    return Number.isFinite(rating) ? rating : 0;
+  };
+
   switch (sort) {
     case "year_asc":
-      return copy.sort((a, b) => parseInt(a.Year) - parseInt(b.Year));
+      return copy.sort((a, b) => readYear(a.Year) - readYear(b.Year));
     case "year_desc":
-      return copy.sort((a, b) => parseInt(b.Year) - parseInt(a.Year));
+      return copy.sort((a, b) => readYear(b.Year) - readYear(a.Year));
+    case "rating_asc":
+      return copy.sort((a, b) => readRating(a.imdbRating) - readRating(b.imdbRating));
+    case "rating_desc":
+      return copy.sort((a, b) => readRating(b.imdbRating) - readRating(a.imdbRating));
     case "title_az":
       return copy.sort((a, b) => a.Title.localeCompare(b.Title));
     case "title_za":

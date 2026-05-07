@@ -118,7 +118,7 @@ export default function MovieDetailPage({ lang, checkFav, onToggleFav }: Props) 
             <button
               id="favorite-toggle-button"
               className={`fav-toggle-btn${isFav ? " fav-active" : ""}`}
-              onClick={() => onToggleFav({ imdbID: movie.imdbID, Title: movie.Title, Year: movie.Year, Type: movie.Type, Poster: movie.Poster })}
+              onClick={() => onToggleFav({ imdbID: movie.imdbID, Title: movie.Title, Year: movie.Year, Type: movie.Type, Poster: movie.Poster, imdbRating: movie.imdbRating })}
               data-edit-id="favorite-toggle-button"
             >
               {isFav ? t.removeFav : t.addFav}

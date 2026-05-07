@@ -29,7 +29,10 @@ export default function MainCard({ lang, movie, isFav, onToggleFav, showRemove, 
         </div>
         <div className="card-info" data-edit-id={`card-info-${movie.imdbID}`}>
           <h3 className="card-title" data-edit-id={`card-title-${movie.imdbID}`}>{movie.Title}</h3>
-          <span className="card-year" data-edit-id={`card-year-${movie.imdbID}`}>{movie.Year}</span>
+          <div className="card-meta-row" data-edit-id={`card-meta-${movie.imdbID}`}>
+            <span className="card-year" data-edit-id={`card-year-${movie.imdbID}`}>{movie.Year}</span>
+            {movie.imdbRating && <span className="card-rating" data-edit-id={`card-rating-${movie.imdbID}`}>IMDb {movie.imdbRating}</span>}
+          </div>
         </div>
       </Link>
       <div className="card-actions" data-edit-id={`card-actions-${movie.imdbID}`}>

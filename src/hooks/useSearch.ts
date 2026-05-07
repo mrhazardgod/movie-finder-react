@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import type { SearchState, FilterType, SortType, MovieSummary, Lang } from "../types";
 import { searchMovies } from "../api/omdb";
 import { sortMovies } from "../utils";
@@ -6,7 +6,7 @@ import { sortMovies } from "../utils";
 const INITIAL: SearchState = {
   query: "",
   filter: "all",
-  sort: "default",
+  sort: "year_desc",
   page: 1,
   totalResults: 0,
   movies: [],
@@ -20,10 +20,6 @@ export function useSearch(lang: Lang) {
 
   const doSearch = useCallback(
     async (query: string, filter: FilterType, page: number, append: boolean) => {
-      if (!query.trim()) {
-        setState((s) => ({ ...s, status: "empty_query", movies: [], totalResults: 0 }));
-        return;
-      }
       abortRef.current?.abort();
       abortRef.current = new AbortController();
       setState((s) => ({ ...s, status: "loading", error: "" }));
@@ -69,6 +65,10 @@ export function useSearch(lang: Lang) {
     (movies: MovieSummary[], sort: SortType) => sortMovies(movies, sort),
     []
   );
+
+  useEffect(() => {
+    doSearch("", "all", 1, false);
+  }, [doSearch]);
 
   return { state, search, loadMore, setSort, getSorted };
 }

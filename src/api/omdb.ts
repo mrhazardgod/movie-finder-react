@@ -449,6 +449,7 @@ function toSummary(movie: LocalMovie, lang: Lang): MovieSummary {
     Year: movie.year,
     Type: movie.type,
     Poster: movie.poster,
+    imdbRating: movie.rating,
   };
 }
 
@@ -476,10 +477,12 @@ function searchLocalMovies(query: string, type: FilterType, page: number, lang: 
   const normalized = normalizeText(query);
   const latinQuery = translit(query);
   const translated = normalizeText(translateQuery(query));
+  const hasQuery = normalized.length > 0;
 
   const matches = LOCAL_MOVIES
     .filter((movie) => matchesType(movie, type))
     .filter((movie) => {
+      if (!hasQuery) return true;
       const haystack = normalizeText([
         movie.title.ru,
         movie.title.en,

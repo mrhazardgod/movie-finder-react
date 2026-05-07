@@ -11,28 +11,32 @@ interface Props {
 
 const copy = {
   ru: {
-    placeholder: "Введите название: матрица, интерстеллар, друзья...",
-    search: "Искать",
+    placeholder: "Введите название или оставьте пустым для каталога...",
+    search: "Показать",
     all: "Все типы",
     movies: "Фильмы",
     series: "Сериалы",
     episodes: "Эпизоды",
-    sortDefault: "Сортировка: по умолчанию",
-    yearAsc: "Год: сначала старые",
-    yearDesc: "Год: сначала новые",
+    sortDefault: "Сортировка: как в каталоге",
+    yearAsc: "Дата: сначала старые",
+    yearDesc: "Дата: сначала новые",
+    ratingAsc: "Рейтинг: сначала низкий",
+    ratingDesc: "Рейтинг: сначала высокий",
     titleAz: "Название: А-Я",
     titleZa: "Название: Я-А",
   },
   en: {
-    placeholder: "Search: matrix, interstellar, friends...",
-    search: "Search",
+    placeholder: "Search a title or leave empty for the catalog...",
+    search: "Show",
     all: "All types",
     movies: "Movies",
     series: "Series",
     episodes: "Episodes",
-    sortDefault: "Sort: default",
-    yearAsc: "Year: oldest first",
-    yearDesc: "Year: newest first",
+    sortDefault: "Sort: catalog order",
+    yearAsc: "Date: oldest first",
+    yearDesc: "Date: newest first",
+    ratingAsc: "Rating: lowest first",
+    ratingDesc: "Rating: highest first",
     titleAz: "Title: A-Z",
     titleZa: "Title: Z-A",
   },
@@ -96,8 +100,10 @@ export default function SearchBar({ lang, onSearch, onSortChange, sort, filter }
           data-edit-id="sort-select"
         >
           <option value="default">{t.sortDefault}</option>
-          <option value="year_asc">{t.yearAsc}</option>
           <option value="year_desc">{t.yearDesc}</option>
+          <option value="year_asc">{t.yearAsc}</option>
+          <option value="rating_desc">{t.ratingDesc}</option>
+          <option value="rating_asc">{t.ratingAsc}</option>
           <option value="title_az">{t.titleAz}</option>
           <option value="title_za">{t.titleZa}</option>
         </select>

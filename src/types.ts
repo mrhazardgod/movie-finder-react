@@ -4,6 +4,7 @@ export interface MovieSummary {
   Year: string;
   Type: string;
   Poster: string;
+  imdbRating?: string;
 }
 
 export interface MovieDetail extends MovieSummary {
@@ -25,7 +26,7 @@ export interface MovieDetail extends MovieSummary {
 }
 
 export type FilterType = "all" | "movie" | "series" | "episode";
-export type SortType = "default" | "year_asc" | "year_desc" | "title_az" | "title_za";
+export type SortType = "default" | "year_asc" | "year_desc" | "rating_asc" | "rating_desc" | "title_az" | "title_za";
 export type Lang = "ru" | "en";
 
 export interface SearchState {

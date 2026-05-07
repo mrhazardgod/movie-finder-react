@@ -344,6 +344,25 @@ a {
   font-weight: 650;
 }
 
+.card-meta-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.card-meta-row .card-year {
+  margin-top: 0;
+}
+
+.card-rating {
+  color: #ffe58a;
+  font-size: 13px;
+  font-weight: 850;
+  white-space: nowrap;
+}
+
 .card-actions {
   display: flex;
   gap: 8px;
