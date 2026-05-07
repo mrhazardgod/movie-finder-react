@@ -31,7 +31,13 @@ The app allows users to search for movies, view detailed information, filter res
 
 ## Screenshots
 
-Screenshots will be added soon.
+![Home page](./screenshots/home-page.png)
+
+![Search results](./screenshots/search-results.png)
+
+![Movie details](./screenshots/movie-details.png)
+
+![Favorites page](./screenshots/favorites-page.png)
 
 ## Installation
 
