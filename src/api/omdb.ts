@@ -550,6 +550,77 @@ function localizeOmdbMovie(movie: MovieSummary, lang: Lang): MovieSummary {
   return local ? toSummary(local, lang) : movie;
 }
 
+interface PosterCacheItem {
+  poster: string;
+  rating?: string;
+  savedAt: number;
+}
+
+const POSTER_CACHE_KEY = "omdb_catalog_posters_v1";
+const POSTER_CACHE_TTL = 1000 * 60 * 60 * 24 * 14;
+
+function readPosterCache(): Record<string, PosterCacheItem> {
+  try {
+    return JSON.parse(localStorage.getItem(POSTER_CACHE_KEY) || "{}") as Record<string, PosterCacheItem>;
+  } catch {
+    return {};
+  }
+}
+
+function writePosterCache(cache: Record<string, PosterCacheItem>): void {
+  try {
+    localStorage.setItem(POSTER_CACHE_KEY, JSON.stringify(cache));
+  } catch {
+    // If storage is unavailable, the catalog still works with embedded posters.
+  }
+}
+
+async function hydrateCatalogPosters(movies: MovieSummary[], key: string): Promise<MovieSummary[]> {
+  const now = Date.now();
+  const cache = readPosterCache();
+  let changed = false;
+
+  const hydrated = await Promise.all(
+    movies.map(async (movie) => {
+      const cached = cache[movie.imdbID];
+      if (cached && now - cached.savedAt < POSTER_CACHE_TTL) {
+        return {
+          ...movie,
+          Poster: cached.poster || movie.Poster,
+          imdbRating: cached.rating || movie.imdbRating,
+        };
+      }
+
+      try {
+        const params = new URLSearchParams({ apikey: key, i: movie.imdbID, plot: "short" });
+        const res = await fetch(`${BASE}?${params}`);
+        if (!res.ok) return movie;
+        const data = await res.json();
+
+        if (data.Response === "False" || !data.Poster || data.Poster === "N/A") return movie;
+
+        cache[movie.imdbID] = {
+          poster: data.Poster,
+          rating: data.imdbRating && data.imdbRating !== "N/A" ? data.imdbRating : movie.imdbRating,
+          savedAt: now,
+        };
+        changed = true;
+
+        return {
+          ...movie,
+          Poster: cache[movie.imdbID].poster,
+          imdbRating: cache[movie.imdbID].rating,
+        };
+      } catch {
+        return movie;
+      }
+    })
+  );
+
+  if (changed) writePosterCache(cache);
+  return hydrated;
+}
+
 export async function searchMovies(
   query: string,
   type: FilterType,
@@ -560,7 +631,13 @@ export async function searchMovies(
   const key = getApiKey();
   const isCatalogRequest = !query.trim();
 
-  if (isCatalogRequest) return localResult;
+  if (isCatalogRequest) {
+    if (!key) return localResult;
+    return {
+      ...localResult,
+      movies: await hydrateCatalogPosters(localResult.movies, key),
+    };
+  }
 
   if (key) {
     try {
